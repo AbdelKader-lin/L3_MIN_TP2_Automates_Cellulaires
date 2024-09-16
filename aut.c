@@ -44,27 +44,31 @@ void print_state(size_t an, int a[an]){
 
 
 int *next_state(size_t an, int a[an]){
-    char *tab = malloc( an * sizeof( char ) ) ;
+    int *tab = malloc( an * sizeof( int ) ) ;
+    if ( !tab ){
+        exit(-1) ;
+    }
+
     for ( int i = 0 ; i < an ; i++ ){
 
         // Triplet ACtuel
-        ptr_triplet MonTriplet = malloc( sizeof ( triplet ) );
+        triplet MonTriplet ; //= malloc( sizeof ( triplet ) );
         // Voisine gauche
         if ( i == 0 ){
-            MonTriplet->voisine_gauche = 0 ;
+            MonTriplet.voisine_gauche = 0 ;
         } else{
-            MonTriplet->voisine_gauche = a[ i - 1 ] ;
+            MonTriplet.voisine_gauche = a[ i - 1 ] ;
         }
         // Cell centrale
-        MonTriplet->cell = a[ i ] ;
+        MonTriplet.cell = a[ i ] ;
         // Voisine droite
         if ( i == an - 1 ){
-            MonTriplet->voisine_droite = 0 ;
+            MonTriplet.voisine_droite = 0 ;
         } else{
-            MonTriplet->voisine_droite = a[ i + 1 ] ;
+            MonTriplet.voisine_droite = a[ i + 1 ] ;
         }
 
-        if( ( MonTriplet->voisine_gauche == 1 && ( MonTriplet->voisine_droite + MonTriplet->cell != 0 ) ) || ( MonTriplet->voisine_droite + MonTriplet->cell + MonTriplet->voisine_gauche == 0 )) {
+        if( ( MonTriplet.voisine_gauche == 1 && ( MonTriplet.voisine_droite + MonTriplet.cell != 0 ) ) || ( MonTriplet.voisine_droite + MonTriplet.cell + MonTriplet.voisine_gauche == 0 )) {
             tab[ i ] = 0 ;
         } else {
             tab[ i ] = 1 ;
@@ -75,23 +79,27 @@ int *next_state(size_t an, int a[an]){
 }
 
 void rule30(size_t an, int a[an], int nsteps){
-    int *t ;
-    // = malloc( an * sizeof( int ) ) ;
     for ( int i = 1 ; i <= nsteps ; i++ ){
+        printf("RULE 30, ITER. N %d\n",i);
+        int *t = malloc( an * sizeof( int ) ) ;
         t = next_state( an , a ) ;
         print_state( an ,  t ) ;
+        for (int j = 0; j < an; j++) {
+            a[j] = t[j];
+        }
+        free(t);
     }
 }
 
 
 int main(){
     int k ;
-   int dim ;
-   printf("Saisissez la taille du tableau : \n");
-   scanf("%d", &dim );
-   //int* tab = malloc( sizeof( dim * sizeof( int ) ) ) ;
-   int tab[ dim ] ;
-   for ( int i = 0 ; i < dim ; i++ ){
+    int dim ;
+    printf("Saisissez la taille du tableau : \n");
+    scanf("%d", &dim );
+    //int* tab = malloc( sizeof( dim * sizeof( int ) ) ) ;
+    int tab[ dim ] ;
+    for ( int i = 0 ; i < dim ; i++ ){
         do {
             printf(" Saisissez l'elt d'indice %d : \n", i );
             scanf("%d", &k );
@@ -99,7 +107,13 @@ int main(){
         tab[ i ] = k ;
    } 
    print_state( dim , tab );
+
    printf("\n");
-   //free( tab );
+   
+   int nsteps = 100;
+   rule30(dim, tab, nsteps);
+   
+   printf("RULE 30 OK ! \n");
+   //free(tab);
    return 1 ;
 }
