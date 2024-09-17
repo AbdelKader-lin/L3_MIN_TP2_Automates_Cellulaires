@@ -52,7 +52,7 @@ int *next_state(size_t an, int a[an]){
 
     for ( int i = 0 ; i < an ; i++ ){
 
-        // Triplet ACtuel
+        // Triplet Actuel
         triplet MonTriplet ; //= malloc( sizeof ( triplet ) );
         // Voisine gauche
         if ( i == 0 ){
@@ -168,7 +168,7 @@ void utilisateur_q4(){
     do{
         uint8_t rule_utilisateur ;
         printf("Entrez une règle de votre choix :\n");
-        scanf("%hhu",&rule_utilisateur) ;
+        scanf("%hhu",&rule_utilisateur);
 
         printf("Saisissez la taille du tableau : \n");
         scanf("%d", &dim );

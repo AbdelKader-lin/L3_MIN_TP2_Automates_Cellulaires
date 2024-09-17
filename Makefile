@@ -15,5 +15,12 @@ aut : aut.o
 	$(CC) $(CFLAGS) -o aut aut.o 
 
 
+supp_liste.o : supp_liste.c
+	$(CC) $(CFLAGS) -c supp_liste.c
+
+supp_liste : supp_liste.o 
+	$(CC) $(CFLAGS) -o supp_liste supp_liste.o
+
+
 clean:
 	$(RM) *.o *~ $(EXECUTABLES)
